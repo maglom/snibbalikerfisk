@@ -8,7 +8,7 @@ with open('ETL/API/VG.html', 'r') as file:
 
 @app.route('/')
 def index():
-    return 'Hello world!'
+    return html
 
 if __name__ == "__main__":
     app.run()
