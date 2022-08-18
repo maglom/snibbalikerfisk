@@ -1,32 +1,98 @@
-from flask import Flask
+
 import psycopg2
+import psycopg2.extras
+from flask import Flask
 
 app = Flask('__name__')
 
-html = '''
-<!DOCTYPE html>
-<html>
-<head>
-<title>Små brune bisker er de beste biskene</title>
-</head>
-<body>
 
-<h1>Dette er ubestridt</h1>
-<p>Ifølge folk.</p>
+db = 'd26q679v0a08m9'
+username = 'wjrnshvsyrjebr'
+porti = 5432
+pas = 'aa60041333af7760248ef2f67014c80476c9cfd709de727ddb82f680d7d1fc1d'
+hosted = 'ec2-52-210-97-223.eu-west-1.compute.amazonaws.com'
 
-</body>
-</html>'''
 
 @app.route('/')
 def index():
-    return html
+    return '''For searching by flight number go here <a href="http://127.0.0.1:5000/flight_number">/flight_number</a><br>
+    For searching by departure and arrival airportcodes go here <a href="http://127.0.0.1:5000/airport_codes">/airport_codes</a><br>
+    For getting all flights departing today go here <a href="http://127.0.0.1:5000/flights_today">/flights_today</a>
+    '''
 
-@app.route('/person/<query>')
-def search(query):
-    conn = psycopg2.connect("dbname=d31saoq36iural user=zfyjfnpddtxnrf password=b85ff3d4b5f275531eab6fc8a9c13bff39b7b28f0f05334a7a30e11d0aefa91b", port=5432)
-    cur = conn.cursor()
-    cur.execute('''select * from person where name = '{query}''')
-    return cur.fetchall()
+@app.route('/flight_number')
+def flight_number_root():
+    return '''Input /flight_number/<flight_number> to search for flightnumber
+    Example /flight_number/DY606'''
 
-if __name__ == "__main__":
-    app.run()
+@app.route('/airport_codes')
+def airport_codes_root():
+    return '''Input /airport_codes/<airport_codes> to search for flightnumber
+    Example /airport_codes/OSL-BGO'''
+
+@app.route('/flight_number/<flight_number>')
+def flight_number(flight_number):
+    return get_data_flight_number(flight_number)
+
+@app.route('/airport_codes/<airport_codes>')
+def airport_codes(airport_codes):
+    codes = airport_codes.split('-')
+    return get_data_dep_arr(codes[0], codes[1])
+
+@app.route('/flights_today')
+def flights_today():
+    return get_data_for_todays_flights()
+
+def get_data_flight_number(flight):
+    conn = psycopg2.connect(dbname=db, user=username, password=pas, host=hosted)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(f'''
+    select * from flight f
+    left join distance_flight df on f.id = df.flight_id 
+    left join distance d on df.distance_id = d.id 
+    left join emission e on d.id = e.distance_id
+    where f.flight_code = '{flight}' 
+    ''')
+    ls = []
+    for i in cur:
+        ls.append(dict(i))
+    conn.close()
+    return ls
+
+def get_data_dep_arr(dep, arr):
+    conn = psycopg2.connect(dbname=db, user=username, password=pas, host=hosted)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(f'''
+    select * from flight f
+    left join distance_flight df on f.id = df.flight_id 
+    left join distance d on df.distance_id = d.id 
+    left join emission e on d.id = e.distance_id
+    where d.departure_airport_id = '{dep}' and d.arrival_airport_id = '{arr}' 
+    ''')
+    ls = []
+    for i in cur:
+        ls.append(dict(i))
+    conn.close()
+    return ls
+
+def get_data_for_todays_flights():
+    conn = psycopg2.connect(dbname=db, user=username, password=pas, host=hosted)
+    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(f'''
+    select * from flight f
+    left join distance_flight df on f.id = df.flight_id 
+    left join distance d on df.distance_id = d.id 
+    left join emission e on d.id = e.distance_id
+    where date(f.time_departure) = current_date
+    ''')
+    ls = []
+    for i in cur:
+        ls.append(dict(i))
+    conn.close()
+    return ls
+
+if __name__=='__main__':
+    app.run(debug=True)
+
+
+
