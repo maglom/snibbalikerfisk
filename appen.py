@@ -15,9 +15,9 @@ hosted = 'ec2-52-210-97-223.eu-west-1.compute.amazonaws.com'
 
 @app.route('/')
 def index():
-    return '''For searching by flight number go here <a href="http://127.0.0.1:5000/flight_number">/flight_number</a><br>
-    For searching by departure and arrival airportcodes go here <a href="http://127.0.0.1:5000/airport_codes">/airport_codes</a><br>
-    For getting all flights departing today go here <a href="http://127.0.0.1:5000/flights_today">/flights_today</a>
+    return '''For searching by flight number go here <a href="https://snibbalikerfisk.herokuapp.com/flight_number">/flight_number</a><br>
+    For searching by departure and arrival airportcodes go here <a href="https://snibbalikerfisk.herokuapp.com/airport_codes">/airport_codes</a><br>
+    For getting all flights departing today go here <a href="https://snibbalikerfisk.herokuapp.com/flights_today">/flights_today</a>
     '''
 
 @app.route('/flight_number')
