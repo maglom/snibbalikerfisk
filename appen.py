@@ -22,12 +22,12 @@ def index():
 
 @app.route('/flight_number')
 def flight_number_root():
-    return '''Input /flight_number/<flight_number> to search for flightnumber
+    return '''Input /flight_number/#flight_number# to search for flightnumber
     Example /flight_number/DY606'''
 
 @app.route('/airport_codes')
 def airport_codes_root():
-    return '''Input /airport_codes/<airport_codes> to search for flightnumber
+    return '''Input /airport_codes/#airport_codes# to search for flightnumber
     Example /airport_codes/OSL-BGO'''
 
 @app.route('/flight_number/<flight_number>')
