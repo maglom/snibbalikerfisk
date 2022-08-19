@@ -3,7 +3,7 @@ import psycopg2.extras
 from flask import Flask
 
 app = Flask('__name__')
-
+https://www.umweltbundesamt.de/sites/default/files/medien/2546/bilder/fotolia_199807134_m_semen_salivanchuk.jpg
 
 db = 'd26q679v0a08m9'
 username = 'wjrnshvsyrjebr'
@@ -14,7 +14,7 @@ hosted = 'ec2-52-210-97-223.eu-west-1.compute.amazonaws.com'
 htmlindex = '''
 <h1>CO2 Emissions</h1><be>
 <h2>Flying versus driving</h2><be>
-<img src="https://3z6mv8219w2s2w196j1dkzga-wpengine.netdna-ssl.com/wp-content/uploads/2020/11/aviation-emissions-wikimedia-commons.png" style="width:400px;"><br>
+<img src="https://3z6mv8219w2s2w196j1dkzga-wpengine.netdna-ssl.com/wp-content/uploads/2020/11/aviation-emissions-wikimedia-commons.png" style="width:400px;"> <img src="https://www.umweltbundesamt.de/sites/default/files/medien/2546/bilder/fotolia_199807134_m_semen_salivanchuk.jpg" style="height:300px;"> 
 For searching by flight number: <a href="https://snibbalikerfisk.herokuapp.com/flight_number">/flight_number</a><br>
 For searching by departure and arrival airportcodes: <a href="https://snibbalikerfisk.herokuapp.com/airport_codes">/airport_codes</a><br>
 For getting all flights departing today: <a href="https://snibbalikerfisk.herokuapp.com/flights_today">/flights_today</a>
