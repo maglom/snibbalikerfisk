@@ -1,4 +1,3 @@
-
 import psycopg2
 import psycopg2.extras
 from flask import Flask
@@ -12,23 +11,36 @@ porti = 5432
 pas = 'aa60041333af7760248ef2f67014c80476c9cfd709de727ddb82f680d7d1fc1d'
 hosted = 'ec2-52-210-97-223.eu-west-1.compute.amazonaws.com'
 
+htmlindex = '''
+<h1>CO2 Emissions</h1><be>
+<h2>Flying versus driving</h2><be>
+<img src="c02.jpeg">
+For searching by flight number: <a href="https://snibbalikerfisk.herokuapp.com/flight_number">/flight_number</a><br>
+For searching by departure and arrival airportcodes: <a href="https://snibbalikerfisk.herokuapp.com/airport_codes">/airport_codes</a><br>
+For getting all flights departing today: <a href="https://snibbalikerfisk.herokuapp.com/flights_today">/flights_today</a>
+'''
+
+htmlflight = '''
+Go to /flight_number/#flight_number# to search for flightnumber<br>
+Example: <a href="https://snibbalikerfisk.herokuapp.com/flight_number/DY606">/flight_number/DY606</a>
+'''
+
+htmlcode = '''
+Go to /airport_codes/#airport_codes# to search for airport codes<br>
+Example: <a href="https://snibbalikerfisk.herokuapp.com/airport_codes/OSL-BGO">/airport_codes/OSL-BGO</a>
+'''
 
 @app.route('/')
 def index():
-    return '''For searching by flight number go here <a href="https://snibbalikerfisk.herokuapp.com/flight_number">/flight_number</a><br>
-    For searching by departure and arrival airportcodes go here <a href="https://snibbalikerfisk.herokuapp.com/airport_codes">/airport_codes</a><br>
-    For getting all flights departing today go here <a href="https://snibbalikerfisk.herokuapp.com/flights_today">/flights_today</a>
-    '''
+    return htmlindex
 
 @app.route('/flight_number')
 def flight_number_root():
-    return '''Input /flight_number/#flight_number# to search for flightnumber<br>
-    Example /flight_number/DY606'''
+    return htmlflight
 
 @app.route('/airport_codes')
 def airport_codes_root():
-    return '''Input /airport_codes/#airport_codes# to search for flightnumber<br>
-    Example /airport_codes/OSL-BGO'''
+    return htmlcode
 
 @app.route('/flight_number/<flight_number>')
 def flight_number(flight_number):
