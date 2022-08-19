@@ -3,7 +3,6 @@ import psycopg2.extras
 from flask import Flask
 
 app = Flask('__name__')
-https://www.umweltbundesamt.de/sites/default/files/medien/2546/bilder/fotolia_199807134_m_semen_salivanchuk.jpg
 
 db = 'd26q679v0a08m9'
 username = 'wjrnshvsyrjebr'
