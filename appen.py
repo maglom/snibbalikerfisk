@@ -14,7 +14,7 @@ hosted = 'ec2-52-210-97-223.eu-west-1.compute.amazonaws.com'
 htmlindex = '''
 <h1>CO2 Emissions</h1><be>
 <h2>Flying versus driving</h2><be>
-<img src="c02.jpeg">
+<img src="https://3z6mv8219w2s2w196j1dkzga-wpengine.netdna-ssl.com/wp-content/uploads/2020/11/aviation-emissions-wikimedia-commons.png">
 For searching by flight number: <a href="https://snibbalikerfisk.herokuapp.com/flight_number">/flight_number</a><br>
 For searching by departure and arrival airportcodes: <a href="https://snibbalikerfisk.herokuapp.com/airport_codes">/airport_codes</a><br>
 For getting all flights departing today: <a href="https://snibbalikerfisk.herokuapp.com/flights_today">/flights_today</a>
@@ -64,6 +64,7 @@ def get_data_flight_number(flight):
     left join distance d on df.distance_id = d.id 
     left join emission e on d.id = e.distance_id
     where f.flight_code = '{flight}' 
+    limit 1;
     ''')
     ls = []
     for i in cur:
@@ -80,6 +81,7 @@ def get_data_dep_arr(dep, arr):
     left join distance d on df.distance_id = d.id 
     left join emission e on d.id = e.distance_id
     where d.departure_airport_id = '{dep}' and d.arrival_airport_id = '{arr}' 
+    limit 1;
     ''')
     ls = []
     for i in cur:
@@ -95,7 +97,7 @@ def get_data_for_todays_flights():
     left join distance_flight df on f.id = df.flight_id 
     left join distance d on df.distance_id = d.id 
     left join emission e on d.id = e.distance_id
-    where date(f.time_departure) = current_date
+    where date(f.time_departure) = current_date;
     ''')
     ls = []
     for i in cur:
